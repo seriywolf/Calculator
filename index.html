@@ -57,11 +57,11 @@
             font-size: large;
         }
 
-        .button:hover{
+        .button:hover {
             background-color: rgb(233, 222, 193);
         }
 
-        .button:active{
+        .button:active {
             background-color: orange;
         }
 
@@ -78,17 +78,15 @@
             width: 156px;
         }
 
-        .vertical{
+        .vertical {
             display: flex;
             flex-direction: column;
         }
 
-        .vertical .button{
+        .vertical .button {
             width: 38px;
             height: 90px;
         }
-
-
     </style>
 </head>
 
@@ -97,26 +95,26 @@
     <div class="calculator">
         <div class="display">0</div>
         <div class="buttons">
-            <div class="button">C</div>
-            <div class="button">/</div>
-            <div class="button">*</div>
-            <div class="button">-</div>
+            <div class="button" id="C">C</div>
+            <div class="button" id="/">/</div>
+            <div class="button" id="*">*</div>
+            <div class="button" id="-">-</div>
             <div class="sub1">
-                <div class="button">7</div>
-                <div class="button">8</div>
-                <div class="button">9</div>
-                <div class="button">4</div>
-                <div class="button">5</div>
-                <div class="button">6</div>
-                <div class="button">1</div>
-                <div class="button">2</div>
-                <div class="button">3</div>
-                <div class="button button0">0</div>
-                <div class="button">.</div>
+                <div class="button" id="7">7</div>
+                <div class="button" id="8">8</div>
+                <div class="button" id="9">9</div>
+                <div class="button" id="4">4</div>
+                <div class="button" id="5">5</div>
+                <div class="button" id="6">6</div>
+                <div class="button" id="1">1</div>
+                <div class="button" id="2">2</div>
+                <div class="button" id="3">3</div>
+                <div class="button button0" id="0">0</div>
+                <div class="button" id = ".">.</div>
             </div>
             <div class="vertical">
-                <div class="button">+</div>
-                <div class="button">=</div>
+                <div class="button" id="+">+</div>
+                <div class="button" id="=">=</div>
             </div>
         </div>
 
@@ -144,6 +142,11 @@
         function operate(operator, a, b) {
             return operator(a, b);
         };
+        document.querySelectorAll(".button").forEach(item => {
+            item.addEventListener("click", function (event) {
+                console.log(event.target.id);
+            })
+        });
     </script>
 </body>
 

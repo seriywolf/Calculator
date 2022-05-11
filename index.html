@@ -34,14 +34,15 @@
             font-size: 28px;
             padding: 6px;
             background-color: aliceblue;
-            overflow-wrap:break-word;
+            overflow-wrap: break-word;
         }
 
-        .smallUp{
+        .smallLCD {
             text-align: right;
             height: 28px;
         }
-        .bigDown{
+
+        .bigLCD {
             text-align: right;
         }
 
@@ -103,8 +104,8 @@
     <h1>Calculator</h1>
     <div class="calculator">
         <div class="display">
-            <div class="smallUp"></div>
-            <div class="bigDown">0</div>
+            <div class="smallLCD"></div>
+            <div class="bigLCD">0</div>
         </div>
         <div class="buttons">
             <div class="button" id="C">C</div>
@@ -154,30 +155,27 @@
         function operate(operator, a, b) {
             return operator(a, b);
         };
-        const bigDown = document.querySelector(".bigDown");
+        const bigLCD = document.querySelector(".bigLCD");
+        
+        let a = 0;
+        let b = 0;
 
         document.querySelectorAll(".button").forEach(item => {
             item.addEventListener("click", function (event) {
-                
                 const pressedKey = event.target.id;
-                if (bigDown.textContent === "0") {
-                    bigDown.textContent = pressedKey;
+                if (bigLCD.textContent === "0") {
+                    bigLCD.textContent = pressedKey;
                 } else { bigDown.textContent += pressedKey };
-                
-
             })
         });
-
 
         document.querySelectorAll(".math").forEach(item => {
             item.addEventListener("click", function (event) {
                 if (event.target.className === "button math") {
-                   
+
                 };
             })
         });
-
-
     </script>
 </body>
 

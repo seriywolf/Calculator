@@ -40,6 +40,7 @@
         .smallLCD {
             text-align: right;
             height: 28px;
+            font-size: medium;
         }
 
         .bigLCD {
@@ -156,6 +157,7 @@
             return operator(a, b);
         };
         const bigLCD = document.querySelector(".bigLCD");
+        const smallLCD = document.querySelector(".smallLCD");
         
         let a = 0;
         let b = 0;
@@ -165,14 +167,17 @@
                 const pressedKey = event.target.id;
                 if (bigLCD.textContent === "0") {
                     bigLCD.textContent = pressedKey;
-                } else { bigDown.textContent += pressedKey };
+                } else { bigLCD.textContent += pressedKey };
             })
         });
 
         document.querySelectorAll(".math").forEach(item => {
             item.addEventListener("click", function (event) {
                 if (event.target.className === "button math") {
-
+                    let bigLCDContent  = bigLCD.textContent;
+                    let firstArgument =  +bigLCDContent.substring(0,bigLCDContent.length-1);
+                    smallLCD.textContent = firstArgument;
+                    bigLCD.textContent = "0";
                 };
             })
         });

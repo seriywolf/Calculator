@@ -34,6 +34,8 @@
             font-size: 28px;
             padding: 6px;
             background-color: aliceblue;
+            overflow-wrap:break-word;
+
         }
 
         .buttons {
@@ -96,9 +98,9 @@
         <div class="display">0</div>
         <div class="buttons">
             <div class="button" id="C">C</div>
-            <div class="button" id="/">/</div>
-            <div class="button" id="*">*</div>
-            <div class="button" id="-">-</div>
+            <div class="button math" id="/">/</div>
+            <div class="button math" id="*">*</div>
+            <div class="button math" id="-">-</div>
             <div class="sub1">
                 <div class="button" id="7">7</div>
                 <div class="button" id="8">8</div>
@@ -110,10 +112,10 @@
                 <div class="button" id="2">2</div>
                 <div class="button" id="3">3</div>
                 <div class="button button0" id="0">0</div>
-                <div class="button" id = ".">.</div>
+                <div class="button" id=".">.</div>
             </div>
             <div class="vertical">
-                <div class="button" id="+">+</div>
+                <div class="button math" id="+">+</div>
                 <div class="button" id="=">=</div>
             </div>
         </div>
@@ -142,11 +144,30 @@
         function operate(operator, a, b) {
             return operator(a, b);
         };
+        const display = document.querySelector(".display");
+
         document.querySelectorAll(".button").forEach(item => {
             item.addEventListener("click", function (event) {
-                console.log(event.target.id);
+                
+                const pressedKey = event.target.id;
+                if (display.textContent === "0") {
+                    display.textContent = pressedKey;
+                } else { display.textContent += pressedKey };
+                
+
             })
         });
+
+
+        document.querySelectorAll(".math").forEach(item => {
+            item.addEventListener("click", function (event) {
+                if (event.target.className === "button math") {
+                   
+                };
+            })
+        });
+
+
     </script>
 </body>
 

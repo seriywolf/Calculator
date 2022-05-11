@@ -128,7 +128,7 @@
             </div>
             <div class="vertical">
                 <div class="button math" id="+">+</div>
-                <div class="button" id="=">=</div>
+                <div class="button enter">=</div>
             </div>
         </div>
 
@@ -158,9 +158,10 @@
         };
         const bigLCD = document.querySelector(".bigLCD");
         const smallLCD = document.querySelector(".smallLCD");
-        
-        let a = 0;
-        let b = 0;
+
+        let firstArgument = 0;
+        let secondArgument = 0;
+        let operator = "";
 
         document.querySelectorAll(".button").forEach(item => {
             item.addEventListener("click", function (event) {
@@ -174,13 +175,29 @@
         document.querySelectorAll(".math").forEach(item => {
             item.addEventListener("click", function (event) {
                 if (event.target.className === "button math") {
-                    let bigLCDContent  = bigLCD.textContent;
-                    let firstArgument =  +bigLCDContent.substring(0,bigLCDContent.length-1);
-                    smallLCD.textContent = firstArgument;
+                    firstArgument = +bigLCD.textContent.substring(0, bigLCD.textContent.length - 1);
+                    operator = bigLCD.textContent.substring(bigLCD.textContent.length - 1)
+                    smallLCD.textContent = bigLCD.textContent;
                     bigLCD.textContent = "0";
                 };
             })
         });
+
+        const enter = document.querySelector(".button.enter");
+        enter.onclick = function () {
+            secondArgument = +bigLCD.textContent;
+            smallLCD.textContent = "";
+            if (operator === "+"){
+                bigLCD.textContent = add(firstArgument, secondArgument);
+            }
+            else if(operator === "-"){
+                bigLCD.textContent = subtract(firstArgument, secondArgument);
+            }else if(operator === "*"){
+                bigLCD.textContent = multiply(firstArgument, secondArgument);
+            }else if(operator === "/"){
+                bigLCD.textContent = divide(firstArgument, secondArgument);                
+            }         
+        };
     </script>
 </body>
 

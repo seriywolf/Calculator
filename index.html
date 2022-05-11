@@ -35,7 +35,14 @@
             padding: 6px;
             background-color: aliceblue;
             overflow-wrap:break-word;
+        }
 
+        .smallUp{
+            text-align: right;
+            height: 28px;
+        }
+        .bigDown{
+            text-align: right;
         }
 
         .buttons {
@@ -95,7 +102,10 @@
 <body>
     <h1>Calculator</h1>
     <div class="calculator">
-        <div class="display">0</div>
+        <div class="display">
+            <div class="smallUp"></div>
+            <div class="bigDown">0</div>
+        </div>
         <div class="buttons">
             <div class="button" id="C">C</div>
             <div class="button math" id="/">/</div>
@@ -144,15 +154,15 @@
         function operate(operator, a, b) {
             return operator(a, b);
         };
-        const display = document.querySelector(".display");
+        const bigDown = document.querySelector(".bigDown");
 
         document.querySelectorAll(".button").forEach(item => {
             item.addEventListener("click", function (event) {
                 
                 const pressedKey = event.target.id;
-                if (display.textContent === "0") {
-                    display.textContent = pressedKey;
-                } else { display.textContent += pressedKey };
+                if (bigDown.textContent === "0") {
+                    bigDown.textContent = pressedKey;
+                } else { bigDown.textContent += pressedKey };
                 
 
             })

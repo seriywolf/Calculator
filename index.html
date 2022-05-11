@@ -109,7 +109,7 @@
             <div class="bigLCD">0</div>
         </div>
         <div class="buttons">
-            <div class="button" id="C">C</div>
+            <div class="button reset" id="">C</div>
             <div class="button math" id="/">/</div>
             <div class="button math" id="*">*</div>
             <div class="button math" id="-">-</div>
@@ -156,6 +156,7 @@
         function operate(operator, a, b) {
             return operator(a, b);
         };
+        
         const bigLCD = document.querySelector(".bigLCD");
         const smallLCD = document.querySelector(".smallLCD");
 
@@ -197,6 +198,14 @@
             }else if(operator === "/"){
                 bigLCD.textContent = divide(firstArgument, secondArgument);                
             }         
+        };
+
+        const resetButton = document.querySelector(".button.reset");
+        resetButton.onclick = function(){
+            bigLCD.textContent=0;
+            smallLCD.textContent = "";
+            firstArgument = 0;
+            secondArgument = 0;            
         };
     </script>
 </body>

@@ -14,8 +14,8 @@
 
         .calculator {
             margin: auto;
-            width: 236px;
-            height: 416px;
+            width: 280px;
+            height: 460px;
             border: 1px solid rgb(41, 13, 119);
             display: flex;
             justify-content: center;
@@ -28,9 +28,10 @@
         .display {
             border: 1px solid rgb(50, 60, 190);
             border-radius: 4px;
-            width: 200px;
+            width: 235px;
             height: 70px;
-            margin: 16px;
+            margin-bottom: 16px;
+            margin-top: 16px;
             font-size: 28px;
             padding: 6px;
             background-color: aliceblue;
@@ -51,15 +52,15 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 10px;
+            margin: 6px;
         }
 
         .button {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 38px;
-            height: 38px;
+            width: 44px;
+            height: 44px;
             border: 1px solid rgb(50, 60, 190);
             margin: 6px;
             color: darkblue;
@@ -77,26 +78,27 @@
         }
 
         .button0 {
-            width: 90px;
-            height: 38px;
+            width: 102px;
+            height: 44px;
         }
 
         .sub1 {
             display: flex;
             flex-wrap: wrap;
-            justify-content: start;
+            justify-content: center;
             align-items: center;
-            width: 156px;
+            width: 180px;
         }
 
         .vertical {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
         .vertical .button {
-            width: 38px;
-            height: 90px;
+            width: 44px;
+            height: 104px;
         }
     </style>
 </head>
@@ -106,7 +108,7 @@
     <div class="calculator">
         <div class="display">
             <div class="smallLCD"></div>
-            <div class="bigLCD">0</div>
+            <div class="bigLCD"></div>
         </div>
         <div class="buttons">
             <div class="button reset" id="">C</div>
@@ -114,16 +116,16 @@
             <div class="button math" id="*">*</div>
             <div class="button math" id="-">-</div>
             <div class="sub1">
-                <div class="button" id="7">7</div>
-                <div class="button" id="8">8</div>
-                <div class="button" id="9">9</div>
-                <div class="button" id="4">4</div>
-                <div class="button" id="5">5</div>
-                <div class="button" id="6">6</div>
-                <div class="button" id="1">1</div>
-                <div class="button" id="2">2</div>
-                <div class="button" id="3">3</div>
-                <div class="button button0" id="0">0</div>
+                <div class="button key" id="7">7</div>
+                <div class="button key" id="8">8</div>
+                <div class="button key" id="9">9</div>
+                <div class="button key" id="4">4</div>
+                <div class="button key" id="5">5</div>
+                <div class="button key" id="6">6</div>
+                <div class="button key" id="1">1</div>
+                <div class="button key" id="2">2</div>
+                <div class="button key" id="3">3</div>
+                <div class="button key button0" id="0">0</div>
                 <div class="button" id=".">.</div>
             </div>
             <div class="vertical">
@@ -156,56 +158,95 @@
         function operate(operator, a, b) {
             return operator(a, b);
         };
-        
+
         const bigLCD = document.querySelector(".bigLCD");
+        bigLCD.textContent = 0;
         const smallLCD = document.querySelector(".smallLCD");
 
-        let firstArgument = 0;
-        let secondArgument = 0;
-        let operator = "";
 
-        document.querySelectorAll(".button").forEach(item => {
+        let operator = "";
+        let argument = "";
+        let a = 0;
+        let b = 0;
+        let result;
+        let counter = 0;
+
+
+        document.querySelectorAll(".button.key").forEach(item => {
             item.addEventListener("click", function (event) {
                 const pressedKey = event.target.id;
+                if (counter !== 0) {
+                    bigLCD.textContent = "";
+                    argument = "";
+                    counter = 0;
+
+                };
                 if (bigLCD.textContent === "0") {
                     bigLCD.textContent = pressedKey;
-                } else { bigLCD.textContent += pressedKey };
-            })
+                    argument += pressedKey;
+                } else {
+                    if (bigLCD.textContent.length < 16) {
+                        bigLCD.textContent += pressedKey;
+                        argument += pressedKey;
+                    };
+                };
+            });
         });
 
         document.querySelectorAll(".math").forEach(item => {
             item.addEventListener("click", function (event) {
-                if (event.target.className === "button math") {
-                    firstArgument = +bigLCD.textContent.substring(0, bigLCD.textContent.length - 1);
-                    operator = bigLCD.textContent.substring(bigLCD.textContent.length - 1)
-                    smallLCD.textContent = bigLCD.textContent;
-                    bigLCD.textContent = "0";
+                counter++;
+                operator = event.target.id;
+                smallLCD.textContent += argument + operator;
+                bigLCD.textContent = "0";
+                if (a === 0) {
+                    a = +argument;
+                    argument = "";
+                    console.log("a:" + a);
+                } else {
+                    b = +argument;
+                    argument = "";
+                    console.log("b:" + b);
+                    operate();
                 };
-            })
+            });
         });
+
+
+        function operate() {
+            if (operator === "+") {
+                result = add(a, b);
+            } else if (operator === "-") {
+                result = subtract(a, b);
+            } else if (operator === "*") {
+                result = multiply(a, b);
+            } else if (operator === "/") {
+                result = divide(a, b);
+            };
+            bigLCD.textContent = result;
+            console.log(result);
+            a = result;
+        };
 
         const enter = document.querySelector(".button.enter");
         enter.onclick = function () {
-            secondArgument = +bigLCD.textContent;
             smallLCD.textContent = "";
-            if (operator === "+"){
-                bigLCD.textContent = add(firstArgument, secondArgument);
-            }
-            else if(operator === "-"){
-                bigLCD.textContent = subtract(firstArgument, secondArgument);
-            }else if(operator === "*"){
-                bigLCD.textContent = multiply(firstArgument, secondArgument);
-            }else if(operator === "/"){
-                bigLCD.textContent = divide(firstArgument, secondArgument);                
-            }         
-        };
+            b = +argument;
+            operate();
+        }
+
+
 
         const resetButton = document.querySelector(".button.reset");
-        resetButton.onclick = function(){
-            bigLCD.textContent=0;
+        resetButton.onclick = function () {
+            bigLCD.textContent = 0;
             smallLCD.textContent = "";
-            firstArgument = 0;
-            secondArgument = 0;            
+            a = 0;
+            b = 0;
+            operator = "";
+            argument = "";
+            result = 0;
+            counter = 0;
         };
     </script>
 </body>

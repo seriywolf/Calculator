@@ -1,0 +1,110 @@
+h1 {
+  margin: 32px;
+  text-align: center;
+}
+
+.calculator {
+  margin: auto;
+  width: 280px;
+  height: 460px;
+  border: 1px solid rgb(41, 13, 119);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: rgb(211, 229, 241);
+  border-radius: 8px;
+}
+
+.display {
+  border: 1px solid rgb(50, 60, 190);
+  border-radius: 4px;
+  width: 235px;
+  height: 70px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  font-size: 32px;
+  font-weight: 900;
+  padding: 6px;
+  background-color: aliceblue;
+  overflow-wrap: break-word;
+  font-family: "Roboto", sans-serif;
+}
+
+.smallLCD {
+  text-align: right;
+  height: 28px;
+  font-size: medium;
+}
+
+.bigLCD {
+  text-align: right;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 6px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(50, 60, 190);
+  margin: 6px;
+  color: darkblue;
+  border-radius: 4px;
+  transition-duration: 0.1s;
+  font-size: 32px;
+  font-weight: 900;
+  font-family: "Roboto", sans-serif;
+}
+
+.button.key {
+  background-color: rgb(189, 221, 231);
+}
+
+.button.math,
+.enter {
+  background-color: rgb(186, 203, 240);
+}
+
+.reset {
+  background-color: rgb(245, 147, 109);
+}
+
+.button:hover {
+  background-color: rgb(252, 228, 124);
+}
+
+.button:active {
+  background-color: orange;
+}
+
+.button0 {
+  width: 102px;
+  height: 44px;
+}
+
+.sub1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vertical .button {
+  width: 44px;
+  height: 104px;
+}

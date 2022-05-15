@@ -8,121 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <title>Calculator</title>
-    <style>
-        h1 {
-            margin: 32px;
-            text-align: center;
-        }
-
-        .calculator {
-            margin: auto;
-            width: 280px;
-            height: 460px;
-            border: 1px solid rgb(41, 13, 119);
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: center;
-            background-color: rgb(211, 229, 241);
-            border-radius: 8px;
-        }
-
-        .display {
-            border: 1px solid rgb(50, 60, 190);
-            border-radius: 4px;
-            width: 235px;
-            height: 70px;
-            margin-bottom: 16px;
-            margin-top: 16px;
-            font-size: 32px;
-            font-weight: 900;
-            padding: 6px;
-            background-color: aliceblue;
-            overflow-wrap: break-word;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        .smallLCD {
-            text-align: right;
-            height: 28px;
-            font-size: medium;
-        }
-
-        .bigLCD {
-            text-align: right;
-        }
-
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 6px;
-        }
-
-        .button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 44px;
-            height: 44px;
-            border: 1px solid rgb(50, 60, 190);
-            margin: 6px;
-            color: darkblue;
-            border-radius: 4px;
-            transition-duration: 0.1s;
-            font-size: 32px;
-            font-weight: 900;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        .button.key {
-            background-color: rgb(189, 221, 231)
-        }
-
-        .button.math,
-        .enter {
-            background-color: rgb(186, 203, 240)
-        }
-
-        .reset {
-            background-color: rgb(245, 147, 109)
-        }
-
-        .button:hover {
-            background-color: rgb(252, 228, 124);
-        }
-
-        .button:active {
-            background-color: orange;
-        }
-
-
-
-        .button0 {
-            width: 102px;
-            height: 44px;
-        }
-
-        .sub1 {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            width: 180px;
-        }
-
-        .vertical {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .vertical .button {
-            width: 44px;
-            height: 104px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Calculator</title>      
 </head>
 
 <body>
@@ -133,26 +20,26 @@
             <div class="bigLCD"></div>
         </div>
         <div class="buttons">
-            <div class="button reset">C</div>
-            <div class="button math" id="/">/</div>
-            <div class="button math" id="*">x</div>
-            <div class="button math" id="-">-</div>
+            <div  class="button reset">C</div>
+            <div data-key="111" class="button math" id="/">/</div>
+            <div data-key="106" class="button math" id="*">x</div>
+            <div data-key="109" class="button math" id="-">-</div>
             <div class="sub1">
-                <div class="button key" id="7">7</div>
-                <div class="button key" id="8">8</div>
-                <div class="button key" id="9">9</div>
-                <div class="button key" id="4">4</div>
-                <div class="button key" id="5">5</div>
-                <div class="button key" id="6">6</div>
-                <div class="button key" id="1">1</div>
-                <div class="button key" id="2">2</div>
-                <div class="button key" id="3">3</div>
-                <div class="button key button0" id="0">0</div>
-                <div class="button key" id=".">.</div>
+                <div data-key="103" class="button key" id="7">7</div>
+                <div data-key="104" class="button key" id="8">8</div>
+                <div data-key="105" class="button key" id="9">9</div>
+                <div data-key="100" class="button key" id="4">4</div>
+                <div data-key="101" class="button key" id="5">5</div>
+                <div data-key="102" class="button key" id="6">6</div>
+                <div data-key="97" class="button key" id="1">1</div>
+                <div data-key="98" class="button key" id="2">2</div>
+                <div data-key="99" class="button key" id="3">3</div>
+                <div data-key="96" class="button key button0" id="0">0</div>
+                <div data-key="110" class="button key" id=".">.</div>
             </div>
             <div class="vertical">
-                <div class="button math" id="+">+</div>
-                <div class="button enter">=</div>
+                <div data-key="107" class="button math" id="+">+</div>
+                <div data-key="13" class="button enter">=</div>
             </div>
         </div>
     </div>
@@ -191,6 +78,15 @@
         let result;
         let check = false;
 
+        window.addEventListener("keydown", pressButton);
+        function pressButton(event) {
+            const key = document.querySelector(`div[data-key="${event.keyCode}"]`);
+            key.click();
+            console.log(key);
+        };
+
+        //const buttons = Array.from(document.querySelectorAll('.button'));
+        //buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
 
         document.querySelectorAll(".button.key").forEach(item => {
             item.addEventListener("click", function (event) {
@@ -203,7 +99,7 @@
                 //First check for double "."
                 if (pressedKey === "." && argument.includes(".")) {
                     // Do nothing!!!
-                //Then check if pressed "." without digit before
+                    //Then check if pressed "." without digit before
                 } else if (bigLCD.textContent === "0" && pressedKey === ".") {
                     bigLCD.textContent = "0" + pressedKey;
                     argument += "0" + pressedKey;
@@ -219,7 +115,7 @@
             });
         });
 
-        document.querySelectorAll(".math").forEach(item => {
+        document.querySelectorAll(".button.math").forEach(item => {
             item.addEventListener("click", function (event) {
                 check = true;
                 operator = event.target.id;

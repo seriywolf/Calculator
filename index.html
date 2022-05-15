@@ -187,7 +187,7 @@
                     bigLCD.textContent = pressedKey;
                     argument += pressedKey;
                 } else {
-                    if (bigLCD.textContent.length < 16) {
+                    if (bigLCD.textContent.length < 15) {
                         bigLCD.textContent += pressedKey;
                         argument += pressedKey;
                     };
@@ -216,14 +216,14 @@
 
 
         function operate() {
-            if (operator === ""){ 
-                if (argument ===""){
+            if (operator === "") {
+                if (argument === "") {
                     result = 0
-                }else{
-                    result=argument;
+                } else {
+                    result = argument;
                 }
-                                  
-            }else if (operator === "+") {
+
+            } else if (operator === "+") {
                 result = add(a, b);
             } else if (operator === "-") {
                 result = subtract(a, b);
@@ -232,9 +232,11 @@
             } else if (operator === "/") {
                 result = divide(a, b);
             };
-            bigLCD.textContent = result;
-            //console.log(result);
             a = result;
+            //Limit to number of  result digits to screen to 15
+            let m = Math.pow(10, 15);            
+            result = Math.round(result * m) / m;
+            bigLCD.textContent = result;                   
         };
 
         const enter = document.querySelector(".button.enter");

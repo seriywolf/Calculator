@@ -234,17 +234,21 @@
             };
             a = result;
             //Limit to number of  result digits to screen to 15
-            let m = Math.pow(10, 15);            
+            let m = Math.pow(10, 15);
             result = Math.round(result * m) / m;
-            bigLCD.textContent = result;                   
+            bigLCD.textContent = result;
         };
 
         const enter = document.querySelector(".button.enter");
         enter.onclick = function () {
-            smallLCD.textContent = "";
-            b = +argument;
-            operate();
-        }
+            if (operator === "/" && b === 0) {
+                bigLCD.textContent = "ERROR";
+            } else {
+                smallLCD.textContent = "";
+                b = +argument;
+                operate();
+            };
+        };
 
 
 

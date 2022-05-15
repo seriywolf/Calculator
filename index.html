@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Calculator</title>      
+    <title>Calculator</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
             <div class="bigLCD"></div>
         </div>
         <div class="buttons">
-            <div  class="button reset">C</div>
+            <div class="button reset">C</div>
             <div data-key="111" class="button math" id="/">/</div>
             <div data-key="106" class="button math" id="*">x</div>
             <div data-key="109" class="button math" id="-">-</div>
@@ -46,6 +46,11 @@
 
 
     <script>
+
+        const bigLCD = document.querySelector(".bigLCD");
+        bigLCD.textContent = 0;
+        const smallLCD = document.querySelector(".smallLCD");
+
         const add = (a, b) => {
             return a + b;
         };
@@ -62,21 +67,44 @@
             return a / b;
         };
 
-        function operate(operator, a, b) {
-            return operator(a, b);
-        };
-
-        const bigLCD = document.querySelector(".bigLCD");
-        bigLCD.textContent = 0;
-        const smallLCD = document.querySelector(".smallLCD");
-
-
         let operator = "";
         let argument = "";
         let a = 0;
         let b = 0;
-        let result;
+        let result = 0;
         let check = false;
+        let checkEnter = false;
+
+
+        function operate(operator, a, b) {
+            //clearBigLCD();
+            if (operator === "") {
+                if (argument === "") {
+                    result = 0;
+                } else {
+                    result = +argument;
+                };
+            } else if (operator === "+") {
+                result = add(a, b);
+            } else if (operator === "-") {
+                result = subtract(a, b);
+            } else if (operator === "*") {
+                result = multiply(a, b);
+            } else if (operator === "/") {
+                result = divide(a, b);
+            };
+            console.log("result " + result);
+            a = result;
+            console.log("a " + a);
+            
+
+            //Limit to number of  result digits to screen to 12
+            let m = Math.pow(10, 12);
+            result = Math.round(result * m) / m;
+            bigLCD.textContent = result;       
+
+            //return operator(a, b);
+        };
 
         window.addEventListener("keydown", pressButton);
         function pressButton(event) {
@@ -85,16 +113,35 @@
             console.log(key);
         };
 
-        //const buttons = Array.from(document.querySelectorAll('.button'));
-        //buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
+        function clearBigLCD() {
+            bigLCD.textContent = "0";
+            console.log("cleared BIG");
+        };
 
-        document.querySelectorAll(".button.key").forEach(item => {
+        function clearSmallLCD() {
+            smallLCD.textContent = "";
+            console.log("cleared small");
+        };
+
+        function clearA() {
+            a = 0;
+            console.log("cleared a");
+        };
+
+        function clearB() {
+            b = 0;
+            console.log("cleared b");
+        };
+
+
+        document.querySelectorAll(".key").forEach(item => {
             item.addEventListener("click", function (event) {
-                const pressedKey = event.target.id;
-                if (check) {
-                    bigLCD.textContent = "0";
+                const pressedKey = event.target.id;                
+                if (checkEnter) {                    
+                    clearBigLCD();
                     argument = "";
                     check = false;
+                    checkEnter = false;
                 };
                 //First check for double "."
                 if (pressedKey === "." && argument.includes(".")) {
@@ -115,70 +162,55 @@
             });
         });
 
-        document.querySelectorAll(".button.math").forEach(item => {
-            item.addEventListener("click", function (event) {
-                check = true;
+        document.querySelectorAll(".math").forEach(item => {
+            item.addEventListener("click", function (event) {               
                 operator = event.target.id;
-                smallLCD.textContent += argument + operator;
-                bigLCD.textContent = "0";
-                if (a === 0) {
+                //smallLCD.textContent += a.toString() + operator;                
+                if (checkEnter) {
+                    a = result;
+                    smallLCD.textContent = a + operator;
+                }
+               /* if (a === 0) {
                     a = +argument;
                     argument = "";
-                } else {
-                    b = +argument;
+                }*/ else {
+                    clearBigLCD();
+                    smallLCD.textContent += argument + operator;
+                    a = +argument;
                     argument = "";
-                    operate();
+                    //operate(operator, a, b);
                 };
             });
         });
 
 
-        function operate() {
-            if (operator === "") {
-                if (argument === "") {
-                    result = 0;
-                } else {
-                    result = argument;
-                };
-            } else if (operator === "+") {
-                result = add(a, b);
-            } else if (operator === "-") {
-                result = subtract(a, b);
-            } else if (operator === "*") {
-                result = multiply(a, b);
-            } else if (operator === "/") {
-                result = divide(a, b);
-            };
-            a = result;
-            //Limit to number of  result digits to screen to 12
-            let m = Math.pow(10, 12);
-            result = Math.round(result * m) / m;
-            bigLCD.textContent = result;
-        };
 
-        const enter = document.querySelector(".button.enter");
-        enter.onclick = function () {
+        const enter = document.querySelector(".enter");
+        enter.onclick = function () {            
             b = +argument;
+            console.log("b "+b);
             if (operator === "/" && b === 0) {
-                console.log(b);
                 bigLCD.textContent = "ERROR";
             } else {
                 smallLCD.textContent = "";
-                operate();
+                operate(operator,a,b);
+                b = 0;
             };
+            checkEnter = true;
         };
 
 
         const resetButton = document.querySelector(".button.reset");
         resetButton.onclick = function () {
-            bigLCD.textContent = 0;
-            smallLCD.textContent = "";
+            clearBigLCD();
+            clearSmallLCD();
             a = 0;
             b = 0;
             operator = "";
             argument = "";
             result = 0;
             check = false;
+            checkEnter = false;
         };
     </script>
 </body>

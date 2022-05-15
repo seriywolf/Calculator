@@ -126,7 +126,7 @@
                 <div class="button key" id="2">2</div>
                 <div class="button key" id="3">3</div>
                 <div class="button key button0" id="0">0</div>
-                <div class="button" id=".">.</div>
+                <div class="button key" id=".">.</div>
             </div>
             <div class="vertical">
                 <div class="button math" id="+">+</div>
@@ -169,19 +169,21 @@
         let a = 0;
         let b = 0;
         let result;
-        let counter = 0;
+        let check = false;
 
 
         document.querySelectorAll(".button.key").forEach(item => {
             item.addEventListener("click", function (event) {
                 const pressedKey = event.target.id;
-                if (counter !== 0) {
-                    bigLCD.textContent = "";
+                if (check) {
+                    bigLCD.textContent = "0";
                     argument = "";
-                    counter = 0;
-
+                    check = false;
                 };
-                if (bigLCD.textContent === "0") {
+                if (bigLCD.textContent === "0" && pressedKey === ".") {
+                    bigLCD.textContent = "0" + pressedKey;
+                    argument += "0" + pressedKey;
+                } else if (bigLCD.textContent === "0") {
                     bigLCD.textContent = pressedKey;
                     argument += pressedKey;
                 } else {
@@ -195,7 +197,7 @@
 
         document.querySelectorAll(".math").forEach(item => {
             item.addEventListener("click", function (event) {
-                counter++;
+                check = true;
                 operator = event.target.id;
                 smallLCD.textContent += argument + operator;
                 bigLCD.textContent = "0";
@@ -246,7 +248,7 @@
             operator = "";
             argument = "";
             result = 0;
-            counter = 0;
+            check = false;
         };
     </script>
 </body>

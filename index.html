@@ -216,7 +216,14 @@
 
 
         function operate() {
-            if (operator === "+") {
+            if (operator === ""){ 
+                if (argument ===""){
+                    result = 0
+                }else{
+                    result=argument;
+                }
+                                  
+            }else if (operator === "+") {
                 result = add(a, b);
             } else if (operator === "-") {
                 result = subtract(a, b);
@@ -226,7 +233,7 @@
                 result = divide(a, b);
             };
             bigLCD.textContent = result;
-            console.log(result);
+            //console.log(result);
             a = result;
         };
 

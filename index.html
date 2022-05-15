@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <title>Calculator</title>
     <style>
         h1 {
@@ -32,10 +35,12 @@
             height: 70px;
             margin-bottom: 16px;
             margin-top: 16px;
-            font-size: 28px;
+            font-size: 32px;
+            font-weight: 900;
             padding: 6px;
             background-color: aliceblue;
             overflow-wrap: break-word;
+            font-family: 'Roboto', sans-serif;
         }
 
         .smallLCD {
@@ -66,16 +71,31 @@
             color: darkblue;
             border-radius: 4px;
             transition-duration: 0.1s;
-            font-size: large;
+            font-size: 32px;
+            font-weight: 900;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .button.key{
+            background-color:rgb(189, 221, 231)
+        }
+
+        .button.math, .enter{
+            background-color:rgb(186, 203, 240)
+        }
+        .reset{
+            background-color:rgb(245, 147, 109)
         }
 
         .button:hover {
-            background-color: rgb(233, 222, 193);
+            background-color: rgb(252, 228, 124);
         }
 
         .button:active {
             background-color: orange;
         }
+
+
 
         .button0 {
             width: 102px;
@@ -111,9 +131,9 @@
             <div class="bigLCD"></div>
         </div>
         <div class="buttons">
-            <div class="button reset" id="">C</div>
+            <div class="button reset">C</div>
             <div class="button math" id="/">/</div>
-            <div class="button math" id="*">*</div>
+            <div class="button math" id="*">x</div>
             <div class="button math" id="-">-</div>
             <div class="sub1">
                 <div class="button key" id="7">7</div>
@@ -187,7 +207,7 @@
                     bigLCD.textContent = pressedKey;
                     argument += pressedKey;
                 } else {
-                    if (bigLCD.textContent.length < 15) {
+                    if (bigLCD.textContent.length < 12) {
                         bigLCD.textContent += pressedKey;
                         argument += pressedKey;
                     };
@@ -218,11 +238,10 @@
         function operate() {
             if (operator === "") {
                 if (argument === "") {
-                    result = 0
+                    result = 0;
                 } else {
                     result = argument;
-                }
-
+                };
             } else if (operator === "+") {
                 result = add(a, b);
             } else if (operator === "-") {
@@ -233,19 +252,20 @@
                 result = divide(a, b);
             };
             a = result;
-            //Limit to number of  result digits to screen to 15
-            let m = Math.pow(10, 15);
+            //Limit to number of  result digits to screen to 12
+            let m = Math.pow(10, 12);
             result = Math.round(result * m) / m;
             bigLCD.textContent = result;
         };
 
         const enter = document.querySelector(".button.enter");
         enter.onclick = function () {
+            b = +argument;
             if (operator === "/" && b === 0) {
+                console.log(b);
                 bigLCD.textContent = "ERROR";
             } else {
-                smallLCD.textContent = "";
-                b = +argument;
+                smallLCD.textContent = "";                
                 operate();
             };
         };

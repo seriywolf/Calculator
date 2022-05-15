@@ -76,15 +76,17 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        .button.key{
-            background-color:rgb(189, 221, 231)
+        .button.key {
+            background-color: rgb(189, 221, 231)
         }
 
-        .button.math, .enter{
-            background-color:rgb(186, 203, 240)
+        .button.math,
+        .enter {
+            background-color: rgb(186, 203, 240)
         }
-        .reset{
-            background-color:rgb(245, 147, 109)
+
+        .reset {
+            background-color: rgb(245, 147, 109)
         }
 
         .button:hover {
@@ -153,8 +155,6 @@
                 <div class="button enter">=</div>
             </div>
         </div>
-
-
     </div>
 
 
@@ -200,7 +200,11 @@
                     argument = "";
                     check = false;
                 };
-                if (bigLCD.textContent === "0" && pressedKey === ".") {
+                //First check for double "."
+                if (pressedKey === "." && argument.includes(".")) {
+                    // Do nothing!!!
+                //Then check if pressed "." without digit before
+                } else if (bigLCD.textContent === "0" && pressedKey === ".") {
                     bigLCD.textContent = "0" + pressedKey;
                     argument += "0" + pressedKey;
                 } else if (bigLCD.textContent === "0") {
@@ -224,11 +228,9 @@
                 if (a === 0) {
                     a = +argument;
                     argument = "";
-                    console.log("a:" + a);
                 } else {
                     b = +argument;
                     argument = "";
-                    console.log("b:" + b);
                     operate();
                 };
             });
@@ -265,11 +267,10 @@
                 console.log(b);
                 bigLCD.textContent = "ERROR";
             } else {
-                smallLCD.textContent = "";                
+                smallLCD.textContent = "";
                 operate();
             };
         };
-
 
 
         const resetButton = document.querySelector(".button.reset");

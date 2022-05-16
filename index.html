@@ -72,12 +72,13 @@
         let a = 0;
         let b = 0;
         let result = 0;
-        let check = false;
+        let checkmultipleMath = false;
         let checkEnter = false;
 
 
         function operate(operator, a, b) {
-            //clearBigLCD();
+            console.log("a " + a);
+            console.log("b " + b);
             if (operator === "") {
                 if (argument === "") {
                     result = 0;
@@ -93,17 +94,13 @@
             } else if (operator === "/") {
                 result = divide(a, b);
             };
-            console.log("result " + result);
-            a = result;
-            console.log("a " + a);
-            
-
-            //Limit to number of  result digits to screen to 12
+            argument = "";
             let m = Math.pow(10, 12);
             result = Math.round(result * m) / m;
-            bigLCD.textContent = result;       
+            bigLCD.textContent = result;
 
-            //return operator(a, b);
+            //Limit to number of  result digits to screen to 12
+
         };
 
         window.addEventListener("keydown", pressButton);
@@ -136,20 +133,20 @@
 
         document.querySelectorAll(".key").forEach(item => {
             item.addEventListener("click", function (event) {
-                const pressedKey = event.target.id;                
-                if (checkEnter) {                    
-                    clearBigLCD();
-                    argument = "";
-                    check = false;
-                    checkEnter = false;
+                const pressedKey = event.target.id;
+                if (checkEnter) {
+                    reset();
+                    console.log(pressedKey);
                 };
+
                 //First check for double "."
                 if (pressedKey === "." && argument.includes(".")) {
                     // Do nothing!!!
-                    //Then check if pressed "." without digit before
+                    //Then check if pressed "." without digit before;
                 } else if (bigLCD.textContent === "0" && pressedKey === ".") {
                     bigLCD.textContent = "0" + pressedKey;
                     argument += "0" + pressedKey;
+                    //if 0 on LCD, then change LCD to pressedKey;
                 } else if (bigLCD.textContent === "0") {
                     bigLCD.textContent = pressedKey;
                     argument += pressedKey;
@@ -163,45 +160,80 @@
         });
 
         document.querySelectorAll(".math").forEach(item => {
-            item.addEventListener("click", function (event) {               
+            item.addEventListener("click", function (event) {
                 operator = event.target.id;
-                //smallLCD.textContent += a.toString() + operator;                
                 if (checkEnter) {
-                    a = result;
-                    smallLCD.textContent = a + operator;
-                }
-               /* if (a === 0) {
-                    a = +argument;
-                    argument = "";
-                }*/ else {
                     clearBigLCD();
-                    smallLCD.textContent += argument + operator;
-                    a = +argument;
+                    a = result;
+                    smallLCD.textContent = result + operator;
                     argument = "";
-                    //operate(operator, a, b);
-                };
+                    console.log("Math A: " + a)
+                    checkEnter = false;
+
+                } else {
+                    if (argument === "") {
+                        smallLCD.textContent = "0" + operator;
+                        argument = "";
+                    } else {
+                        clearBigLCD();
+                        a = +argument;
+                        smallLCD.textContent = argument + operator;
+                        argument = "";
+
+                    }
+
+                }
+
+
+
+                //if(checkmultipleMath){
+                //    enter.click();
+                //}
+                //clearBigLCD();
+                //a = +argument;
+                //smallLCD.textContent = argument + operator;
+                //argument = "";
+
+                /*
+                                if (!checkmultipleMath) {
+                                    a = +argument;
+                                    smallLCD.textContent = argument + operator;
+                                    argument = "";
+                                } else { */
+                //a = +argument;                   
+                //b = +argument;
+                //operate(operator, a, b);
+                //a=result;                    
+                //console.log(a,result);                    
+                //smallLCD.textContent = result + operator;
+                //smallLCD.textContent += argument + operator;
+                //a = +argument;
+                //
+
+                //};
+                //checkmultipleMath = true;
             });
         });
 
 
-
         const enter = document.querySelector(".enter");
-        enter.onclick = function () {            
+        enter.onclick = function () {
             b = +argument;
-            console.log("b "+b);
+            //console.log("b " + b);
             if (operator === "/" && b === 0) {
                 bigLCD.textContent = "ERROR";
             } else {
                 smallLCD.textContent = "";
-                operate(operator,a,b);
+                operate(operator, a, b);
+                a = result;
                 b = 0;
             };
             checkEnter = true;
         };
 
 
-        const resetButton = document.querySelector(".button.reset");
-        resetButton.onclick = function () {
+        const resetButton = document.querySelector(".reset");
+        function reset() {
             clearBigLCD();
             clearSmallLCD();
             a = 0;
@@ -209,8 +241,13 @@
             operator = "";
             argument = "";
             result = 0;
-            check = false;
+            checkmultipleMath = false;
             checkEnter = false;
+            console.log("reset!!!")
+        };
+
+        resetButton.onclick = function () {
+            reset()
         };
     </script>
 </body>

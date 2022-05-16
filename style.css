@@ -1,10 +1,11 @@
-h1 {
-  margin: 32px;
-  text-align: center;
+body{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
 }
 
-.calculator {
-  margin: auto;
+.calculator { 
   width: 280px;
   height: 460px;
   border: 1px solid rgb(41, 13, 119);

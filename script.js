@@ -1,5 +1,5 @@
 const bigLCD = document.querySelector(".bigLCD");
-bigLCD.textContent = 0;
+bigLCD.textContent = "0";
 const smallLCD = document.querySelector(".smallLCD");
 
 const add = (a, b) => {
